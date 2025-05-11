@@ -14,7 +14,8 @@ if __name__ == "__main__":
     auth = MonitorAuthentication(manager)
     auth.screen_info()
     
-    if True:
+    
+    if auth.verification_mac():
         manager.connect()
         
         content = ContentHandler(db, manager)

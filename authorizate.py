@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import requests
 import os
+import uuid
 
 API_LOGIN = "http://testsmart.enu.kz/api/login"
 API_REGISTR = "http://testsmart.enu.kz/api/banner/monitor/add"
@@ -16,23 +17,17 @@ class MonitorAuthentication:
         self.screen_width = None
         self.screen_height = None
 
+   
     def get_mac(self):
-        for interface in os.listdir('/sys/class/net/'):
-            if interface == "lo":
-                continue
-            try:
-                with open(f'/sys/class/net/{interface}/operstate', 'r') as f:
-                    state = f.read().strip()
-                if state != "up":
-                    continue
-
-                with open(f'/sys/class/net/{interface}/address', 'r') as f:
-                    mac = f.read().strip().upper()
-                    if mac and mac != "00:00:00:00:00:00":
-                        return mac
-            except FileNotFoundError:
-                continue
-        return "MAC-адрес не найден"
+        
+        try:
+            mac = ':'.join(['{:02X}'.format((uuid.getnode() >> elements) & 0xff)
+                            for elements in range(40, -1, -8)])
+            if mac != "00:00:00:00:00:00":
+                return mac
+        except Exception as e:
+            print(f"MAC-адрес не удалось получить: {e}")
+        return "Мак-адрес не найден"
             
     def verification_mac(self):
         self.screen_info()
