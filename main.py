@@ -3,10 +3,10 @@ from connection import DataManager
 from display import DisplayController
 from data import DBHandler, ContentHandler
 from authorizate import MonitorAuthentication
-from auto_launch import setup_autostart
-        
+
+
 if __name__ == "__main__":
-    setup_autostart()
+    
     db = DBHandler()
     db.setup_db()
 
